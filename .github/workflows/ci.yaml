@@ -35,10 +35,22 @@ jobs:
           COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
           echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
 
+      - name: basedpyright
+        run: uv run basedpyright
+
+      - name: Parse Metrics
+        id: extract_metrics
+        run: |
+          COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
+          echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
+          BASEDPYRIGHT_RAW=$(jq '[.files[]? | length] | add // 0' .basedpyright/baseline.json)
+          echo "basedpyright=$BASEDPYRIGHT_RAW" >> $GITHUB_OUTPUT
+
       - name: Enforce Monotonic Progress Guardrails
         uses: ./.github/actions/smallsteps
         with:
           SMALLSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
+          SMALLSTEPS_BASEDPYRIGHT: ${{ steps.extract_metrics.outputs.basedpyright }}
 
   publish:
     needs: test

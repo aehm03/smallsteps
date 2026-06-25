@@ -32,7 +32,7 @@ start = 2026-06-25
 end = 2026-10-01
 initial_value = 57.142857142857146
 goal_value = 80
-command = "uv run pytest --cov --cov-report=json > /dev/null && jq -r '.totals.percent_covered' coverage.json"
+command = "uv run pytest --cov --cov-report=json > /dev/null 2>&1 && jq -r '.totals.percent_covered' coverage.json"
 
 ```
 
@@ -40,8 +40,9 @@ command = "uv run pytest --cov --cov-report=json > /dev/null && jq -r '.totals.p
 
 - You don't need to memorize the command parameters, `smallsteps add` walks you through them interactively.
 - Ratchets can be increasing or decreasing. Percentages (56% with explicit "%") are parsed as floats (.56). So make sure that your goal format matches the command output: if the output is plain 56, the goal should also be 56. If its 56%, the goal must be 56% or .56.
+- It's allways a good idea to mute your original commands output (using `> /dev/null 2>&1`) and write the value into a file to make the result parsing easier.
 
-You can inspect, add or modify the ratchets using the toml file.
+You can inspect, add or modify the ratchets using the toml file. There will find also another example using basedpyright.
 
 ### Checking your Ratchets
 

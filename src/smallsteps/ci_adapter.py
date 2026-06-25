@@ -1,7 +1,5 @@
 import re
 from pathlib import Path
-from typing import List
-
 from smallsteps.ratchet import Ratchet
 
 
@@ -13,7 +11,7 @@ def ratchet_to_slug(ratchet: Ratchet) -> str:
 class GitHubCIAdapter:
     """Generates a custom local GitHub Composite Action matched to the project metrics."""
 
-    def generate_action(self, ratchets: List[Ratchet]) -> str:
+    def generate_action(self, ratchets: list[Ratchet]) -> str:
         """Generates an action.yaml manifest string with dynamic inputs, setup stubs, and mapping."""
         yaml_lines = [
             "name: 'Smallsteps Ratchet Evaluation'",

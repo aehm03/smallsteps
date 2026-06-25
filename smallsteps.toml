@@ -6,4 +6,12 @@ start = 2026-06-25
 end = 2026-10-01
 initial_value = 57.142857142857146
 goal_value = 80
-command = "uv run pytest --cov --cov-report=json > /dev/null && jq -r '.totals.percent_covered' coverage.json"
+command = "uv run pytest --cov --cov-report=json > /dev/null 2>&1 && jq -r '.totals.percent_covered' coverage.json"
+
+[[ratchets]]
+name = "basedpyright"
+start = 2026-06-25
+end = 2026-10-01
+initial_value = 65
+goal_value = 0
+command = "uv run basedpyright  > /dev/null 2>&1  && jq '[.files[]? | length] | add // 0' .basedpyright/baseline.json"

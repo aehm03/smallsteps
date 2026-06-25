@@ -4,6 +4,9 @@ inputs:
   SMALLSTEPS_PYTEST_COVERAGE:
     description: "Current live performance value for 'Pytest Coverage'"
     required: true
+  SMALLSTEPS_TYPE_ERRORS_BASELINE:
+    description: "Current live performance value for 'Type Errors Baseline'"
+    required: true
 
 runs:
   using: 'composite'
@@ -18,3 +21,4 @@ runs:
       run: uvx smallsteps check
       env:
         SMALLSTEPS_PYTEST_COVERAGE: ${{ inputs.SMALLSTEPS_PYTEST_COVERAGE }}
+        SMALLSTEPS_TYPE_ERRORS_BASELINE: ${{ inputs.SMALLSTEPS_TYPE_ERRORS_BASELINE }}
