@@ -40,8 +40,6 @@ class GitHubCIAdapter:
                 "runs:",
                 "  using: 'composite'",
                 "  steps:",
-                "    - uses: actions/checkout@v6",
-                "",
                 "    - name: Install uv",
                 "      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0",
                 "      with:",
