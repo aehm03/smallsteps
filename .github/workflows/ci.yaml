@@ -1,0 +1,83 @@
+name: CI and Publish
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --all-extras --frozen
+
+      - name: Lint with ruff
+        run: uv run ruff check .
+
+      - name: Format check with ruff
+        run: uv run ruff format --check .
+
+      - name: Execute Test Suite with JSON Report
+        run: uv run pytest --cov --cov-report=json
+
+      - name: Parse Metrics
+        id: extract_metrics
+        run: |
+          COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
+          echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
+
+      # - name: Enforce Monotonic Progress Guardrails
+      #   uses: ./.github/actions/babysteps
+      #   with:
+      #     BABYSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
+
+  # publish:
+  #   needs: test
+  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: pypi
+  #     url: https://pypi.org/p/nasa-lsp
+  #   permissions:
+  #     id-token: write
+  #     contents: write
+
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #       with:
+  #         fetch-depth: 0
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+
+  #     - name: Install uv
+  #       uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+  #       with:
+  #         enable-cache: true
+
+  #     - name: Install dependencies
+  #       run: uv sync --all-groups --frozen
+
+  #     - name: Configure git
+  #       run: |
+  #         git config user.name "github-actions[bot]"
+  #         git config user.email "github-actions[bot]@users.noreply.github.com"
+
+  #     - name: Bump version
+  #       run: uv run bump-my-version bump patch
+
+  #     - name: Push version bump
+  #       run: git push --follow-tags
+
+  #     - name: Build package
+  #       run: uv build
+
+  #     - name: Publish to PyPI
+  #       uses: pypa/gh-action-pypi-publish@release/v1
