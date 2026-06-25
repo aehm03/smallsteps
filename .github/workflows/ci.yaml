@@ -36,9 +36,9 @@ jobs:
           echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
 
       # - name: Enforce Monotonic Progress Guardrails
-      #   uses: ./.github/actions/babysteps
+      #   uses: ./.github/actions/smallsteps
       #   with:
-      #     BABYSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
+      #     SMALLSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
 
   # publish:
   #   needs: test

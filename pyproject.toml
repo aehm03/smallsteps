@@ -1,5 +1,5 @@
 [project]
-name = "babysteps"
+name = "smallsteps"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -23,7 +23,7 @@ test = [
 package = true
 
 [project.scripts]
-babysteps = "babysteps.cli:app"
+smallsteps = "smallsteps.cli:app"
 
 [build-system]
 requires = ["hatchling"]

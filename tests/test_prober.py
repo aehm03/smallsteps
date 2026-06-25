@@ -1,5 +1,5 @@
-from babysteps.prober import Prober, StaticDateProvider
-from babysteps.ratchet import Ratchet
+from smallsteps.prober import Prober, StaticDateProvider
+from smallsteps.ratchet import Ratchet
 from tests.helpers import FakeCommandRunner, create_ratchet
 
 

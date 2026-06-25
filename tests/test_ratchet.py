@@ -2,7 +2,7 @@ import datetime
 
 import pytest
 
-from babysteps.ratchet import evaluate
+from smallsteps.ratchet import evaluate
 from tests.helpers import create_ratchet
 
 

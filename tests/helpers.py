@@ -1,4 +1,4 @@
-from babysteps import CommandRunner, Ratchet
+from smallsteps import CommandRunner, Ratchet
 
 
 def create_ratchet(**kwargs) -> Ratchet:

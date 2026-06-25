@@ -1,4 +1,4 @@
-from babysteps.command_runner import CommandRunnerWithEnvLookUp, OSCommandRunner
+from smallsteps.command_runner import CommandRunnerWithEnvLookUp, OSCommandRunner
 from tests.helpers import FakeCommandRunner, create_ratchet
 
 ENV_VALUE = 5
