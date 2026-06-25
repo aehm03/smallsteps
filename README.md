@@ -39,9 +39,9 @@ command = "uv run pytest --cov --cov-report=json > /dev/null && jq -r '.totals.p
 **Note**
 
 - You don't need to memorize the command parameters, `smallsteps add` walks you through them interactively.
-- Ratchets can be increasing or decreasing. Percentages (56%) are parsed as floats (.56). So make sure that your goal matches the format of the command output.
+- Ratchets can be increasing or decreasing. Percentages (56% with explicit "%") are parsed as floats (.56). So make sure that your goal format matches the command output: if the output is plain 56, the goal should also be 56. If its 56%, the goal must be 56% or .56.
 
-You can inspect, add or modify the ratchets using the the toml file.
+You can inspect, add or modify the ratchets using the toml file.
 
 ### Checking your Ratchets
 
@@ -61,7 +61,7 @@ shows that on the goal date the check will fail if we do not achieve 80% test co
 
 ### CI and reading values from env
 
-When running `smallsteps check` all commands to gather your metrics are run by smallsteps. This may be not the desired behaviour in CI because you want to run the checks in different workflows / actions and do not want to use smallsteps as a central orchestrator.
+By default, running smallsteps check executes the underlying shell commands to gather active metrics. In modern CI/CD, you may prefer to compute metrics once during separate pipeline steps rather than using Smallsteps as a heavy task orchestrator.
 
 By default smallsteps looks for environment variables matching the ratchets before running the command. E.g. if `SMALLSTEPS_PYTEST_COVERAGE` is present, the coverage is not re-computed. You can use this in CI to pass outputs from test workflow into the smallsteps action. To get a scaffolding github action with the required input vars for your ratchets run `uvx smallsteps ci`.
 
@@ -69,7 +69,7 @@ Have a look at [the action](.github/actions/smallsteps/action.yaml) and the whol
 
 ## Installation
 
-This documentaion assumes you are using `uv`, hence you don't need to do anything despite using the uv tool command (`ux`) to install and run smallsteps.
+This documentation assumes you are using `uv`, hence you don't need to do anything despite using the uv tool command (`uvx`) to install and run smallsteps.
 
 # License
 
