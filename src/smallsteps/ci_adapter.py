@@ -14,7 +14,7 @@ class GitHubCIAdapter:
     """Generates a custom local GitHub Composite Action matched to the project metrics."""
 
     def generate_action(self, ratchets: List[Ratchet]) -> str:
-        """Generates an action.yml manifest string with dynamic inputs, setup stubs, and mapping."""
+        """Generates an action.yaml manifest string with dynamic inputs, setup stubs, and mapping."""
         yaml_lines = [
             "name: 'Smallsteps Ratchet Evaluation'",
             "description: 'Evaluates your quality goals'",

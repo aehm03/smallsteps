@@ -230,7 +230,7 @@ def ci(
         False,
         "--overwrite",
         "-o",
-        help="Force overwrite the action.yml file if it already exists.",
+        help="Force overwrite the action.yaml file if it already exists.",
     ),
     config: Path | None = typer.Option(
         None, "--config", "-c", help="Custom path to the smallsteps configuration file."
@@ -242,7 +242,7 @@ def ci(
     ci_adapter = GitHubCIAdapter()
 
     # 1. Check if the target file destination already exists
-    action_path = Path(".github/actions/smallsteps/action.yml")
+    action_path = Path(".github/actions/smallsteps/action.yaml")
     if action_path.exists() and not overwrite:
         typer.secho(
             f"Action manifest already exists at:\n   {action_path.resolve()}\n\n"

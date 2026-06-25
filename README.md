@@ -65,7 +65,7 @@ When running `smallsteps check` all commands to gather your metrics are run by s
 
 By default smallsteps looks for environment variables matching the ratchets before running the command. E.g. if `SMALLSTEPS_PYTEST_COVERAGE` is present, the coverage is not re-computed. You can use this in CI to pass outputs from test workflow into the smallsteps action. To get a scaffolding github action with the required input vars for your ratchets run `uvx smallsteps ci`.
 
-Have a look at [the action](.github/actions/smallsteps/action.yml) and the whole workflow (not provided by a command because too specific for your setup) to see how the plumbing can work.
+Have a look at [the action](.github/actions/smallsteps/action.yaml) and the whole workflow (not provided by a command because too specific for your setup) to see how the plumbing can work.
 
 ## Installation
 
