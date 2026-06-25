@@ -1,4 +1,4 @@
-# Smallsteps - improve your codebase in baby steps
+# Smallsteps - improve your codebase in small steps
 
 Smallsteps allows you to declare ratchets – metrics that must increase over time – and to enforce them via testing or CI pipelines.
 

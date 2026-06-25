@@ -1,7 +1,7 @@
 name: "Smallsteps Ratchet Evaluation"
 description: "Evaluates your quality goals"
 inputs:
-  BABYSTEPS_PYTEST_COVERAGE:
+  SMALLSTEPS_PYTEST_COVERAGE:
     description: "Current live performance value for 'Pytest Coverage'"
     required: true
 
@@ -13,8 +13,8 @@ runs:
       with:
         enable-cache: true
 
-    - name: Run BabySteps Guardrail Validation
+    - name: Run Smallsteps Guardrail Validation
       shell: bash
       run: uvx smallsteps-ratchet check
       env:
-        BABYSTEPS_PYTEST_COVERAGE: ${{ inputs.BABYSTEPS_PYTEST_COVERAGE }}
+        SMALLSTEPS_PYTEST_COVERAGE: ${{ inputs.SMALLSTEPS_PYTEST_COVERAGE }}
