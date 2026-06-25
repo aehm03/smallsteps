@@ -29,16 +29,10 @@ jobs:
       - name: Execute Test Suite with JSON Report
         run: uv run pytest --cov --cov-report=json
 
-      - name: Parse Metrics
-        id: extract_metrics
-        run: |
-          COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
-          echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
-
       - name: basedpyright
         run: uv run basedpyright
 
-      - name: Parse Metrics
+      - name: Extract Metrics
         id: extract_metrics
         run: |
           COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
