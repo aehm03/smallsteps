@@ -34,16 +34,18 @@ def resolve_config_path(explicit_path: Path | None) -> Path:
         return explicit_path
     return find_git_root() / DEFAULT_CONFIG_FILE
 
+
 @app.callback()
 def main(
     log_level: Annotated[
-            str,
-            typer.Option(
-                "--log-level", "-l",
-                help="Set the global root logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).",
-                envvar="SMALLSTEPS_LOG_LEVEL"
-            )
-        ] = "INFO"
+        str,
+        typer.Option(
+            "--log-level",
+            "-l",
+            help="Set the global root logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).",
+            envvar="SMALLSTEPS_LOG_LEVEL",
+        ),
+    ] = "INFO",
 ):
     """Global configuration initialization step for Smallsteps."""
     numeric_level = getattr(logging, log_level.upper(), None)
@@ -55,11 +57,12 @@ def main(
     logging.basicConfig(
         level=numeric_level,
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
 
     # Optional debug statement to confirm activation when running in DEBUG mode
     logging.debug(f"Root logger initialized to level: {log_level.upper()}")
+
 
 @app.command(name="add")
 def add(

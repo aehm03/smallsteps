@@ -13,11 +13,12 @@ dependencies = [
 dev = [
     "basedpyright>=1.39.8",
     "bump-my-version>=1.4.1",
+    "pre-commit>=4.6.0",
     "ruff>=0.15.19",
 ]
 test = [
-    "pytest>=9.0.3",
     "pytest-cov>=7.1.0",
+    "pytest>=9.0.3",
 ]
 
 [tool.uv]

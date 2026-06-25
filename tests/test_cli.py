@@ -146,6 +146,7 @@ def test_add_and_check_decreasing_percentage_failure(tmp_path: Path):
     assert "Expected Min: 0.45" in check_result.output
     assert "Progress check failed." in check_result.output
 
+
 def test_add_multiple_ratchets_appends_successfully(tmp_path: Path):
     """
     E2E Test: Verifies that calling 'add' multiple times sequentially
@@ -160,12 +161,17 @@ def test_add_multiple_ratchets_appends_successfully(tmp_path: Path):
         app,
         [
             "add",
-            "--name", "Pytest Coverage",
-            "--command", "echo '55.0'",
-            "--goal", "80.0",
-            "--end", end_date_str,
-            "--config", str(config_file)
-        ]
+            "--name",
+            "Pytest Coverage",
+            "--command",
+            "echo '55.0'",
+            "--goal",
+            "80.0",
+            "--end",
+            end_date_str,
+            "--config",
+            str(config_file),
+        ],
     )
     assert first_add.exit_code == 0
     assert "Successfully added" in first_add.output
@@ -175,12 +181,17 @@ def test_add_multiple_ratchets_appends_successfully(tmp_path: Path):
         app,
         [
             "add",
-            "--name", "Type Baseline Tracker",
-            "--command", "echo '10'",
-            "--goal", "0",
-            "--end", end_date_str,
-            "--config", str(config_file)
-        ]
+            "--name",
+            "Type Baseline Tracker",
+            "--command",
+            "echo '10'",
+            "--goal",
+            "0",
+            "--end",
+            end_date_str,
+            "--config",
+            str(config_file),
+        ],
     )
     assert second_add.exit_code == 0
     assert "Successfully added" in second_add.output
@@ -193,12 +204,7 @@ def test_add_multiple_ratchets_appends_successfully(tmp_path: Path):
 
     # 4. Run the 'check' command to verify both are loaded and evaluated together
     check_result = runner.invoke(
-        app,
-        [
-            "check",
-            "--config", str(config_file),
-            "--date", date.today().isoformat()
-        ]
+        app, ["check", "--config", str(config_file), "--date", date.today().isoformat()]
     )
 
     # Both echo commands return their baseline matches on Day Zero -> Clean execution
