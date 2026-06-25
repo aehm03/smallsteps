@@ -3,7 +3,7 @@
 Smallsteps allows you to declare ratchets – metrics that must increase over time – and to enforce them via testing or CI pipelines.
 
 A typical situation: you want to add test coverage as a health check.
-Initially your coverage is at 42% so you create a CI gate that fails if it falls under 40%. Now you have your baseline secured – so far so good. You make a resolution to yourself that you will increase your coverage to bump up the percentage in your CI action frequently.
+Initially your coverage is at 42% so you create a CI gate that fails if it falls under 40%. Now you have your baseline secured – so far so good. You make a resolution to yourself: you will increase your coverage and bump up the minimum percentage frequently.
 **Somehow that never happens and your coverage stays at 42%.**
 
 With smallsteps you declare your goal of 80% coverage and that you want to reach it in 100 days. Smallsteps computes the necessary percentage that must be met for each day (e.g. after 50 days you need 60% coverage) and fails if the goal is not met.
