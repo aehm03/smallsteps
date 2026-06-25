@@ -70,3 +70,7 @@ Have a look at [the action](.github/actions/babysteps/action.yml) and the whole 
 ## Installation
 
 This documentaion assumes you are using `uv`, hence you don't need to do anything despite using the uv tool command (`ux`) to install and run babysteps.
+
+# License
+
+MIT
