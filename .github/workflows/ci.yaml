@@ -40,44 +40,44 @@ jobs:
       #   with:
       #     SMALLSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
 
-  # publish:
-  #   needs: test
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: pypi
-  #     url: https://pypi.org/p/nasa-lsp
-  #   permissions:
-  #     id-token: write
-  #     contents: write
+  publish:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/nasa-lsp
+    permissions:
+      id-token: write
+      contents: write
 
-  #   steps:
-  #     - uses: actions/checkout@v6
-  #       with:
-  #         fetch-depth: 0
-  #         token: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-  #     - name: Install uv
-  #       uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
-  #       with:
-  #         enable-cache: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
 
-  #     - name: Install dependencies
-  #       run: uv sync --all-groups --frozen
+      - name: Install dependencies
+        run: uv sync --all-groups --frozen
 
-  #     - name: Configure git
-  #       run: |
-  #         git config user.name "github-actions[bot]"
-  #         git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-  #     - name: Bump version
-  #       run: uv run bump-my-version bump patch
+      - name: Bump version
+        run: uv run bump-my-version bump patch
 
-  #     - name: Push version bump
-  #       run: git push --follow-tags
+      - name: Push version bump
+        run: git push --follow-tags
 
-  #     - name: Build package
-  #       run: uv build
+      - name: Build package
+        run: uv build
 
-  #     - name: Publish to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
