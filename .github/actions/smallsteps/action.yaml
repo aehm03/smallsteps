@@ -21,4 +21,4 @@ runs:
       run: uvx smallsteps check
       env:
         SMALLSTEPS_PYTEST_COVERAGE: ${{ inputs.SMALLSTEPS_PYTEST_COVERAGE }}
-        SMALLSTEPS_BASEDPYRIGHT: ${{ inputs.SMALLSTEPS_TYPE_ERRORS_BASELINE }}
+        SMALLSTEPS_BASEDPYRIGHT: ${{ inputs.SMALLSTEPS_BASEDPYRIGHT }}
