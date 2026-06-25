@@ -1,17 +1,17 @@
 # Smallsteps - improve your codebase in small steps
 
-Smallsteps allows you to declare ratchets – metrics that must increase over time – and to enforce them via testing or CI pipelines.
+Smallsteps allows you to declare ratchets – metrics that must improve over time – and to enforce them via local testing or CI pipelines.
 
 A typical situation: you want to add test coverage as a health check.
 Initially your coverage is at 42% so you create a CI gate that fails if it falls under 40%. Now you have your baseline secured – so far so good. You make a resolution to yourself: you will increase your coverage and bump up the minimum percentage frequently.
-**Somehow that never happens and your coverage stays at 42%.**
+**Somehow, that never happens, and your coverage stays at 42%.**
 
-With smallsteps you declare your goal of 80% coverage and that you want to reach it in 100 days. Smallsteps computes the necessary percentage that must be met for each day (e.g. after 50 days you need 60% coverage) and fails if the goal is not met.
+With smallsteps you declare your goal of 80% coverage and that you want to reach it in 100 days. Smallsteps computes the exact target value required for the current day (e.g., after 50 days, you need at least 60% coverage) and fails the build if your codebase falls behind the trend line.
 
 ## Example
 
-We are using this repository itself as an example. We want to enforce our test coverage to go up.
-So we create a ratchet:
+We use this repository itself as an example to enforce our test coverage tracking.
+To create a new coverage ratchet, run:
 
 ```
 uvx smallsteps add \
@@ -21,7 +21,7 @@ uvx smallsteps add \
   --end="2026-10-01"
 ```
 
-This created a new file – `smallsteps.toml` – which holds the configuration of our ratchet:
+This automatically initializes a smallsteps.toml file in your project root to hold your configuration:
 
 ```toml
 # Smallsteps Configuration
@@ -38,11 +38,12 @@ command = "uv run pytest --cov --cov-report=json > /dev/null 2>&1 && jq -r '.tot
 
 **Note**
 
-- You don't need to memorize the command parameters, `smallsteps add` walks you through them interactively.
-- Ratchets can be increasing or decreasing. Percentages (56% with explicit "%") are parsed as floats (.56). So make sure that your goal format matches the command output: if the output is plain 56, the goal should also be 56. If its 56%, the goal must be 56% or .56.
-- It's allways a good idea to mute your original commands output (using `> /dev/null 2>&1`) and write the value into a file to make the result parsing easier.
+- You don't need to memorize CLI parameters as `smallsteps add` walks you through them interactively.
+- Ratchets can be increasing or decreasing
+- Ensure your `--goal` representation matches your command's output format (e.g., if your tool outputs `85%`, use a goal of `100%`; if it outputs raw floats like `85.0`, match it with `100`).
+- It's allways a good idea to mute commands outputs (using `> /dev/null 2>&1`) to make the result parsing easier.
 
-You can inspect, add or modify the ratchets using the toml file. There will find also another example using basedpyright.
+You can inspect, add or modify the ratchets using the config file. In it you can also find another example using basedpyright.
 
 ### Checking your Ratchets
 
@@ -62,16 +63,20 @@ shows that on the goal date the check will fail if we do not achieve 80% test co
 
 ### CI and reading values from env
 
-By default, running smallsteps check executes the underlying shell commands to gather active metrics. In modern CI/CD, you may prefer to compute metrics once during separate pipeline steps rather than using Smallsteps as a heavy task orchestrator.
+Running smallsteps executes the underlying shell commands to evaluate the ratchet health. In CI/CD, you may prefer to compute metrics once during separate pipeline steps rather than using smallsteps as a task orchestrator.
 
-By default smallsteps looks for environment variables matching the ratchets before running the command. E.g. if `SMALLSTEPS_PYTEST_COVERAGE` is present, the coverage is not re-computed. You can use this in CI to pass outputs from test workflow into the smallsteps action. To get a scaffolding github action with the required input vars for your ratchets run `uvx smallsteps ci`.
+To accommodate this, smallsteps searches the shell environment for matching `SMALLSTEPS_` variables before running any command. E.g. if `SMALLSTEPS_PYTEST_COVERAGE` is present, the coverage is not re-computed. You can use this in CI to pass outputs from a another workflow into the smallsteps action. To bootstrap a github action containing the required input vars mapped to your ratchets run `uvx smallsteps ci`.
 
-Have a look at [the action](.github/actions/smallsteps/action.yaml) and the whole workflow (not provided by a command because too specific for your setup) to see how the plumbing can work.
+Have a look at [the smallsteps action](.github/actions/smallsteps/action.yaml) and the whole [workflow](.github/workflows/ci.yaml) (not created by a command because too specific for your setup) to see an example of the wiring.
 
 ## Installation
 
-This documentation assumes you are using `uv`, hence you don't need to do anything despite using the uv tool command (`uvx`) to install and run smallsteps.
+This documentation assumes you are using `uv`, hence you don't need follow any manual steps and can run smallsteps on the fly using th uv tool command (`uvx`). All other ways of managing python dependencies will work as well.
 
 # License
 
 MIT
+
+# Inspiration
+
+["It gets easier. Every day it gets a little easier. But you got to do it every day. That's the hard part. But it does get easier."](https://www.youtube.com/watch?v=R2_Mn-qRKjA)
