@@ -145,3 +145,64 @@ def test_add_and_check_decreasing_percentage_failure(tmp_path: Path):
     assert "Current: 0.90" in check_result.output
     assert "Expected Min: 0.45" in check_result.output
     assert "Progress check failed." in check_result.output
+
+def test_add_multiple_ratchets_appends_successfully(tmp_path: Path):
+    """
+    E2E Test: Verifies that calling 'add' multiple times sequentially
+    correctly appends multiple discrete [[ratchets]] configuration blocks
+    to smallsteps.toml instead of overwriting the file.
+    """
+    config_file = tmp_path / "smallsteps.toml"
+    end_date_str = (date.today() + timedelta(days=10)).isoformat()
+
+    # 1. Add the first unique ratchet metric
+    first_add = runner.invoke(
+        app,
+        [
+            "add",
+            "--name", "Pytest Coverage",
+            "--command", "echo '55.0'",
+            "--goal", "80.0",
+            "--end", end_date_str,
+            "--config", str(config_file)
+        ]
+    )
+    assert first_add.exit_code == 0
+    assert "Successfully added" in first_add.output
+
+    # 2. Add a second completely distinct ratchet metric to the same config path
+    second_add = runner.invoke(
+        app,
+        [
+            "add",
+            "--name", "Type Baseline Tracker",
+            "--command", "echo '10'",
+            "--goal", "0",
+            "--end", end_date_str,
+            "--config", str(config_file)
+        ]
+    )
+    assert second_add.exit_code == 0
+    assert "Successfully added" in second_add.output
+
+    # 3. Read raw file content to verify multiple block structures exist textually
+    file_content = config_file.read_text(encoding="utf-8")
+    assert file_content.count("[[ratchets]]") == 2
+    assert 'name = "Pytest Coverage"' in file_content
+    assert 'name = "Type Baseline Tracker"' in file_content
+
+    # 4. Run the 'check' command to verify both are loaded and evaluated together
+    check_result = runner.invoke(
+        app,
+        [
+            "check",
+            "--config", str(config_file),
+            "--date", date.today().isoformat()
+        ]
+    )
+
+    # Both echo commands return their baseline matches on Day Zero -> Clean execution
+    assert check_result.exit_code == 0
+    assert "Evaluating 2 ratchet(s)..." in check_result.output
+    assert "Pytest Coverage: ON TRACK" in check_result.output
+    assert "Type Baseline Tracker: ON TRACK" in check_result.output

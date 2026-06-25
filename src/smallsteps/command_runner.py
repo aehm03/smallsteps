@@ -1,5 +1,6 @@
 import os
 import re
+import logging
 import subprocess
 from typing import Optional, Protocol
 
@@ -81,6 +82,8 @@ class CommandRunnerWithEnvLookUp(CommandRunner):
         env_res = self.env_adapter(slug)
 
         if env_res is not None:
+            logging.debug("Reading ratchet %s value from env var %s=%d", ratchet.name,  slug, env_res)
             return env_res
 
+        logging.debug("Computing ratchet %s value by running command: %s", ratchet.name,  ratchet.command)
         return self.command_runner(ratchet)
