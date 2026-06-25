@@ -35,10 +35,10 @@ jobs:
           COVERAGE_RAW=$(jq -r '.totals.percent_covered' coverage.json)
           echo "coverage=$COVERAGE_RAW" >> $GITHUB_OUTPUT
 
-      # - name: Enforce Monotonic Progress Guardrails
-      #   uses: ./.github/actions/smallsteps
-      #   with:
-      #     SMALLSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
+      - name: Enforce Monotonic Progress Guardrails
+        uses: ./.github/actions/smallsteps
+        with:
+          SMALLSTEPS_PYTEST_COVERAGE: ${{ steps.extract_metrics.outputs.coverage }}
 
   publish:
     needs: test
