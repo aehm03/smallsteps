@@ -15,6 +15,6 @@ runs:
 
     - name: Run Smallsteps Guardrail Validation
       shell: bash
-      run: uvx smallsteps-ratchet check
+      run: uvx smallsteps check
       env:
         SMALLSTEPS_PYTEST_COVERAGE: ${{ inputs.SMALLSTEPS_PYTEST_COVERAGE }}

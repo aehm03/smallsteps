@@ -47,7 +47,7 @@ class GitHubCIAdapter:
                 "",
                 "    - name: Run Smallsteps Guardrail Validation",
                 "      shell: bash",
-                "      run: uvx smallsteps-ratchet check",
+                "      run: uvx smallsteps check",
             ]
         )
 
